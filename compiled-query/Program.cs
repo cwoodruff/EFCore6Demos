@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class Program
 {
-    private static ChinookContext _context;
+    private static ChinookContext? _context;
 
     private static void Main()
     {
@@ -103,7 +103,7 @@ public class Program
     private static int[] GetAlbumIDs(int count)
     {
        
-        IQueryable<Album> albums = Queryable.Take(_context.Albums, count);
+        IQueryable<Album> albums = Queryable.Take(_context!.Albums, count);
 
         return albums.AsEnumerable().Select(i => i.Id).ToArray();
     }

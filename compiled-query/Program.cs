@@ -28,7 +28,7 @@ public class Program
                 foreach (var id in albumIDs)
                 {
                     // Use a regular auto-compiled query
-                    var artist = _context.Artists.FirstOrDefault(a => a.Id == id);
+                    var artist = _context.Albums.FirstOrDefault(a => a.Id == id);
                 }
             },
             name: "Regular");
@@ -38,7 +38,7 @@ public class Program
             {
                 // Create explicit compiled query
                 var query = EF.CompileQuery((ChinookContext context, int id)
-                    => _context.Artists.FirstOrDefault(a => a.Id == id));
+                    => _context.Albums.FirstOrDefault(a => a.Id == id));
 
                 foreach (var id in albumIDs)
                 {
@@ -53,12 +53,12 @@ public class Program
             {
                 // Create explicit compiled query
                 var query = EF.CompileAsyncQuery((ChinookContext context, int id)
-                    => context.Artists.FirstOrDefault(a => a.Id == id));
+                    => context.Albums.FirstOrDefault(a => a.Id == id));
 
                 foreach (var id in albumIDs)
                 {
                     // Invoke the async compiled query
-                    var artist = query(_context, id).Result;
+                    var artist = query(_context, id);
                 }
             },
             name: "Async Compiled");
@@ -69,7 +69,7 @@ public class Program
                 foreach (var id in albumIDs)
                 {
                     // Invoke the compiled query from DBContext
-                    var artist = _context.GetArtist(id);
+                    var artist = _context.GetAlbum(id);
                 }
             },
             name: "DBContext Compiled");
@@ -80,7 +80,7 @@ public class Program
                 foreach (var id in albumIDs)
                 {
                     // Invoke the compiled async query from DBContext
-                    var artist = _context.GetArtistAsync(id).Result;
+                    var artist = _context.GetAlbumAsync(id);
                 }
             },
             name: "DBContext Async Compiled");
@@ -102,7 +102,6 @@ public class Program
 
     private static int[] GetAlbumIDs(int count)
     {
-       
         IQueryable<Album> albums = Queryable.Take(_context!.Albums, count);
 
         return albums.AsEnumerable().Select(i => i.Id).ToArray();

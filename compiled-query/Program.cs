@@ -20,7 +20,7 @@ public class Program
         _context = new ChinookContext(dbContextOptions);
 
         // Warm up
-        //var artist = _context.Artists.First();
+        var artist = _context.Artists.First();
 
         RunTest(
             albumIDs =>
